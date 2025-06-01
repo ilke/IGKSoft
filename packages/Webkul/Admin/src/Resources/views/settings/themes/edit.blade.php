@@ -102,6 +102,9 @@
 
                 <!-- Services-content Template -->
                 @includeWhen($theme->type === 'services_content', 'admin::settings.themes.edit.services-content')
+
+                <!-- Full Screen Hero Template -->
+                @includeWhen($theme->type === 'full_screen_hero', 'admin::settings.themes.edit.full-screen-hero')
             </div>
 
             <!-- General -->

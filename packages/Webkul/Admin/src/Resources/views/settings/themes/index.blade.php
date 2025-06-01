@@ -198,6 +198,7 @@
                             image_carousel: "@lang('admin::app.settings.themes.create.type.image-carousel')",
                             footer_links: "@lang('admin::app.settings.themes.create.type.footer-links')",
                             services_content: "@lang('admin::app.settings.themes.create.type.services-content')",
+                            full_screen_hero: "Tam Ekran Kahraman Bloğu",
                         },
 
                         isLoading: false,

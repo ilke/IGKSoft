@@ -14,7 +14,7 @@ class PaymentServiceProvider extends ServiceProvider
     public function boot()
     {
         include __DIR__.'/../Http/helpers.php';
-        include __DIR__.'/../Http/iyzico-routes.php';
+        // include __DIR__.'/../Http/iyzico-routes.php';
 
         $this->app->register(EventServiceProvider::class);
     }

@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -14,13 +15,15 @@ return new class extends Migration
         Schema::create('datagrid_saved_filters', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id')->unsigned();
-            $table->string('name');
-            $table->string('src');
+            $table->string('name', 50);
+            $table->string('src', 50);
             $table->json('applied');
             $table->timestamps();
 
             $table->unique(['user_id', 'name', 'src']);
         });
+
+        DB::statement('ALTER TABLE datagrid_saved_filters ROW_FORMAT = DYNAMIC');
     }
 
     /**

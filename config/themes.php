@@ -24,6 +24,16 @@ return [
                 'package_assets_directory' => 'src/Resources/assets',
             ],
         ],
+        'newTheme1' => [
+            'name'        => 'newTheme1',
+            'assets_path' => 'public/themes/shop/newTheme1',
+            'views_path'  => 'resources/themes/newTheme1/views',
+            'vite'        => [
+                'hot_file'                 => 'newTheme1-vite.hot',
+                'build_directory'          => 'themes/shop/newTheme1/build',
+                'package_assets_directory' => 'src/Resources/assets',
+            ],
+        ],
     ],
 
     /*

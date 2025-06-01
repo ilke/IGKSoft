@@ -71,6 +71,13 @@ class ThemeCustomization extends TranslatableModel implements ThemeCustomization
     public const SERVICES_CONTENT = 'services_content';
 
     /**
+     * Full Screen Hero block type.
+     *
+     * @var string
+     */
+    public const FULL_SCREEN_HERO = 'full_screen_hero';
+
+    /**
      * Cast options field to array.
      *
      * @var array

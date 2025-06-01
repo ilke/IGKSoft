@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -34,8 +35,8 @@ return new class extends Migration
             $table->date('special_price_to')->nullable();
             $table->decimal('weight', 12, 4)->nullable();
             $table->datetime('created_at')->nullable();
-            $table->string('locale')->nullable();
-            $table->string('channel')->nullable();
+            $table->string('locale', 50)->nullable();
+            $table->string('channel', 50)->nullable();
             $table->integer('attribute_family_id')->unsigned()->nullable();
             $table->integer('product_id')->unsigned();
             $table->datetime('updated_at')->nullable();
@@ -47,6 +48,8 @@ return new class extends Migration
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->foreign('parent_id')->references('id')->on('product_flat')->onDelete('cascade');
         });
+
+        DB::statement('ALTER TABLE product_flat ROW_FORMAT = DYNAMIC');
     }
 
     /**

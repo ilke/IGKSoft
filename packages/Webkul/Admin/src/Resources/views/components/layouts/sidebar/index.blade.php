@@ -32,6 +32,14 @@
                     @endif
                 </div>
             @endforeach
+            <div class="px-4 group/item">
+                <a href="/{{ config('app.admin_url', 'admin') }}/settings/themes" class="flex gap-2.5 p-1.5 items-center cursor-pointer hover:rounded-lg hover:bg-gray-100 hover:dark:bg-gray-950">
+                    <span class="icon-paint-brush text-2xl"></span>
+                    <p class="text-gray-600 dark:text-gray-300 font-semibold whitespace-nowrap group-[.sidebar-collapsed]/container:hidden">
+                        Dizayn
+                    </p>
+                </a>
+            </div>
         </nav>
     </div>
 

@@ -54,14 +54,36 @@ class ThemeController extends Controller
         $validated = $this->validate(request(), [
             'name'       => 'required',
             'sort_order' => 'required|numeric',
-            'type'       => 'required|in:product_carousel,category_carousel,static_content,image_carousel,footer_links,services_content',
+            'type'       => 'required|in:product_carousel,category_carousel,static_content,image_carousel,footer_links,services_content,full_screen_hero',
             'channel_id' => 'required|in:'.implode(',', (core()->getAllChannels()->pluck('id')->toArray())),
             'theme_code' => 'required',
         ]);
 
+        $options = request()->input('options', []);
+        if (request()->hasFile('background_image')) {
+            $file = request()->file('background_image');
+            // Save to theme/{themeId} folder after theme is created
+        }
+        $validated['options'] = $options;
+
         Event::dispatch('theme_customization.create.before');
 
         $theme = $this->themeCustomizationRepository->create($validated);
+
+        // Now handle the image upload with the correct theme id
+        if (request()->hasFile('background_image')) {
+            $file = request()->file('background_image');
+            $themeId = $theme->id;
+            $folder = "theme/{$themeId}";
+            \Storage::disk('public')->makeDirectory($folder);
+            $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+            // Save to storage/app/public/theme/{themeId}
+            $path = $file->storeAs($folder, $filename, 'public');
+            $theme->options = array_merge($theme->options ?? [], [
+                'background_image_url' => $folder . '/' . $filename
+            ]);
+            $theme->save();
+        }
 
         Event::dispatch('theme_customization.create.after', $theme);
 
@@ -92,7 +114,7 @@ class ThemeController extends Controller
         $this->validate(request(), [
             'name'       => 'required',
             'sort_order' => 'required|numeric',
-            'type'       => 'required|in:product_carousel,category_carousel,static_content,image_carousel,footer_links,services_content',
+            'type'       => 'required|in:product_carousel,category_carousel,static_content,image_carousel,footer_links,services_content,full_screen_hero',
             'channel_id' => 'required|in:'.implode(',', (core()->getAllChannels()->pluck('id')->toArray())),
             'theme_code' => 'required',
         ]);
@@ -109,6 +131,21 @@ class ThemeController extends Controller
             'status',
             $locale
         );
+
+        $theme = $this->themeCustomizationRepository->find($id);
+        $options = request()->input('options', $theme->options ?? []);
+        if (request()->hasFile('background_image')) {
+            $file = request()->file('background_image');
+            $themeId = $theme->id;
+            $folder = "theme/{$themeId}";
+            \Storage::disk('public')->makeDirectory($folder);
+            $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs($folder, $filename, 'public');
+            $options['background_image_url'] = $folder . '/' . $filename;
+        } elseif (isset($theme->options['background_image_url'])) {
+            $options['background_image_url'] = $theme->options['background_image_url'];
+        }
+        $data['options'] = $options;
 
         Event::dispatch('theme_customization.update.before', $id);
 

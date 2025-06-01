@@ -1,3 +1,4 @@
+<!-- DEBUG: SHOP PACKAGE HOME VIEW LOADED -->
 @php
     $channel = core()->getCurrentChannel();
 @endphp
